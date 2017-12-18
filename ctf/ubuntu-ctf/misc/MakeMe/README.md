@@ -1,6 +1,6 @@
 # Ubuntu-ctf misc MakeMe
 ## Prob
-### MakeME
+### MakeMe
 Give to me some file that named as `flag.txt`
 
 ## What I think?
