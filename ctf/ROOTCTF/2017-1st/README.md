@@ -19,52 +19,52 @@ School : 대덕소프트웨어마이스터고등학교
 
 ### [MISC] Calculate
 
-[Calculate](./MISC/Calculate/README.md)
+[Calculate](./MISC/Calculate/)
 
 ### [MISC] Do you know ㅁㅁㅁ
 
-[Do you know ㅁㅁㅁ](./MISC/Do%20you%20know%20ㅁㅁㅁ/README.md)
+[Do you know ㅁㅁㅁ](./MISC/Do%20you%20know%20ㅁㅁㅁ/)
 
 ### [MISC] Find the flag
 
-[Find the flag](./MISC/Find%20the%20flag/README.md)
+[Find the flag](./MISC/Find%20the%20flag/)
 
 ### [MISC] Vocabulary
 
-[Vocabulary](./MISC/Vocabulary/README.md)
+[Vocabulary](./MISC/Vocabulary/)
 
 ### [MISC] Welcome
 
-[Welcome](./MISC/Welcome/README.md)
+[Welcome](./MISC/Welcome/)
 
 ### [Pwnable] Factorization
 
-[Factorization](./Pwnable/Factorization/README.md)
+[Factorization](./Pwnable/Factorization/)
 
 ### [Pwnable] Point to pointer!
 
-[Point to pointer!](./Pwnable/Point%20to%20pointer!/README.md)
+[Point to pointer!](./Pwnable/Point%20to%20pointer!/)
 
 ### [Reversing] EGG
 
-[EGG](./Reversing/EGG/README.md)
+[EGG](./Reversing/EGG/)
 
 ### [Reversing] Stage Game
 
-[Stage Game](./Reversing/Stage%20Game/README.md)
+[Stage Game](./Reversing/Stage%20Game/)
 
 ### [Web] 보물찾기
 
-[보물찾기](./Web/보물찾기/README.md)
+[보물찾기](./Web/보물찾기/)
 
 ### [Web] Login
 
-[Login](./Web/Login/README.md)
+[Login](./Web/Login/)
 
 ### [Web] Phishing
 
-[Phishing](./Web/Phishing/README.md)
+[Phishing](./Web/Phishing/)
 
 ### [Web] SPACE PROSPECTION
 
-[SPACE PROSPECTION](./Web/SPACE%PROSPECTION/README.md)
+[SPACE PROSPECTION](./Web/SPACE%PROSPECTION/)
