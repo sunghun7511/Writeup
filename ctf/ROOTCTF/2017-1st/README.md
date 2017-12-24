@@ -11,6 +11,8 @@ Point : 6134
 
 School : 대덕소프트웨어마이스터고등학교
 
+Grade-Class-Number : 1-1-5
+
 ## Solved
 
 ![solved](./WebSite-Backup/screencapture-sdhsroot-kro-kr-problems-php-1514030568623.png)
