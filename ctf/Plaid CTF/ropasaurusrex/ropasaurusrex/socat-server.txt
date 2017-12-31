@@ -1,0 +1,2 @@
+shgroup@ubuntu:~$ socat tcp-listen:1234,fork,bind=0.0.0.0 exec:/home/shgroup/Desktop/problems/ropasaurusrex/ropasaurusrex-85a84f36f81e11f720b1cf5ea0d1fb0d5a603c0d
+

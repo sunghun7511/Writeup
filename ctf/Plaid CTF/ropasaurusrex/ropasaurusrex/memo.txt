@@ -1,0 +1,10 @@
+read@plt :		0x0804832c
+write@plt :		0x0804830c
+
+read@got :		0x0804961c
+
+pop pop pop ret :	0x080484b6
+
+/bin/sh space :		0x08049530 	# .dynamic
+
+read - system :		0x99a10		# 0xf75fc350 - 0xf7562940
