@@ -8,15 +8,15 @@ this repository was written by Junior contestant. (Nickname : SHGroup)
 
 ### 1. [Pwnable] BaskinRobins31
 
-[Here](./Pwnable/BaskinRobins31/README.md)
+[Here](./Pwnable/BaskinRobins31/)
 
 ### 2. [Reversing] RedVelvet
 
-[Here](./Reversing/RedVelvet/README.md)
+[Here](./Reversing/RedVelvet/)
 
 ### 3. [Reversing] easy_serial
 
-[Here](./Reversing/easy_serial/README.md)
+[Here](./Reversing/easy_serial/)
 
 ## rank (Junior)
 

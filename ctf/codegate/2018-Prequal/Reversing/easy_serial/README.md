@@ -3,8 +3,7 @@
 ## Overview
 
 ```
-Welcome to droid - 924pts (Rev)
-> o <
+easy_serial - 924pts (Rev)
 Solve 2
 ```
 
