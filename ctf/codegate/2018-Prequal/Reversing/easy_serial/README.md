@@ -134,7 +134,7 @@ It split input with `#` and check it.
 1. byte check : The first values of the splitted array, It check that they matches the byte values.
 2. reverse check : The second values of the splitted array, It check that they matches the reversed byte values.
 3. array selection check : The last values of the splitted array, It check that they matches the selected byte value from lists.
-    * lists count is trhee.
+    * lists count is three.
     * lowercase strings : `abcdefghijklmnopqrstuvwxyz`
     * highercase strings : `ABCDEFGHIJKLMNOPQRSTUVWXYZ`
     * numberic strings : `1234567890`
