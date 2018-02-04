@@ -33,6 +33,8 @@ And I typed `python ./runner.py ../easy`, but It dosen't worked...
 
 So, I fixed some errors.
 
+> If you want fixed decompiler, go to [here](https://github.com/sunghun7511/hsdecomp)
+
 This is output of Haskell decompiler
 
 ```haskell
