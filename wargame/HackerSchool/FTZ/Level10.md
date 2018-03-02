@@ -1,7 +1,7 @@
 # Hackerschool FTZ Level 10
 
 ```
-ogin as: level10
+login as: level10
 level10@192.168.18.131's password:
 [level10@ftz level10]$ ls
 hint  program  public_html  tmp
