@@ -1,0 +1,4 @@
+Betting - 50pts (Pwn)
+nc 110.10.147.29 8282
+
+Download

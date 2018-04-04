@@ -1,0 +1,7 @@
+DaysNote - 50pts (Pwn)
+NO ASLR
+
+nc 110.10.147.38 8888
+nc 110.10.147.14 8888
+
+Download

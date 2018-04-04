@@ -1,0 +1,38 @@
+Changes in 4.6.32
+  Bugfix: Fixed bugs when extracting text resources to RC files from the 
+          commandline (related to ansi/unicode conversion). 
+  Update: More logical naming of binary files when extracting to RC files.
+  Bugfix: Occasionally the pop-up display of menu resources was too narrow
+          to show all the menu items.
+  Update: Other minor cosmetic changes and fixes.
+Changes in 4.5.28
+  Update: Major changes (and improvements) to the commandline syntax
+Changes in 4.5.28
+  Update: Numerous changes and improvements to command line support.
+  Update: Filenames in resource scripts are no longer required to be 
+          enclosed within double quotes unless they contain spaces.
+Changes in 4.4.24
+  Bugfix: The toolbar state wasn't being preserved between sessions
+Changes in 4.3.20
+  Bugfixes: Numerous fixes to commandline processing
+  Bugfixes: Other minor fixes
+Changes in 4.2.5
+  Bugfix: Compiling Delphi form resources was buggy.
+  Bugfix: Adding a resource to a file without any resources was broken
+  New: Can now change a text resource's format (unicode, UTF-8, ANSI)
+Changes in 4.2.4
+  Bugfix: Error when compiling ansi encoded *.rc files 
+	Bugfix: RCDATA resources not displayed in their optimal format
+	Bugfix: Error when trying to display 'compressed' resources
+	Bugfix: 'Compressed' files can no longer be modified and saved
+Changes in 4.2.3
+  Bugfix: Significant bug in the recompiler
+  Bugfix: Minor bug displaying animated cursors
+Changes in 4.2.2
+  Bugfix: Some monochrome images weren't being displayed
+  Bugfix: Removed extraneous button in "Import Resources" dialog
+  Bugfix: Manifest resources were being converted to UCS-2 format.
+  Modified: Increased font sizes in all dialogs
+Changes in 4.2.1 (from 4.2.0)
+  Bugfix: occasional Delphi form was not being decompiled
+  Bugfix: hiding the toolbar disabled hide/show dialogs/menus.

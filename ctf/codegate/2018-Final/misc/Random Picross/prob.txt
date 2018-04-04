@@ -1,0 +1,4 @@
+Random Picross - 150pts (Misc)
+within 1 min, solve 10 stage of 20x20 picross puzzle!
+
+nc 110.10.147.24 9090
