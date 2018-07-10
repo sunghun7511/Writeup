@@ -2,17 +2,17 @@
 from pwn import *
 
 context.arch = "amd64"
-# context.log_level = "DEBUG"
+context.log_level = "DEBUG"
 
 
-isRemote = True
+isRemote = False
 
 e = ELF("./betting")
 if isRemote:
     p = remote("110.10.147.29", 8282)
 else:
     p = process("./betting")
-    attach(p, "break *0x0000000000400AD3\nc")
+    attach(p, "break *0x0000000000400DE6\nc")
     raw_input()
 
 
